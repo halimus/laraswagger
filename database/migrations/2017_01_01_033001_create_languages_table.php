@@ -15,8 +15,9 @@ class CreateLanguagesTable extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->increments('language_id');
-            $table->string('language_name')->unique();
-            $table->timestamps();
+            $table->string('language_name', 45)->unique();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
             $table->engine = 'InnoDB';
         });
     }

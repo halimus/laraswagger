@@ -15,10 +15,12 @@ class CreateAuthorsTable extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->increments('author_id');
-            $table->string('author_name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->timestamps();
+            $table->string('author_name', 45);
+            $table->string('email', 45)->nullable();
+            $table->string('phone', 20)->nullable();
+            //$table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
             $table->engine = 'InnoDB';
         });
     }

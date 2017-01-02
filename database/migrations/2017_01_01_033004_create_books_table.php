@@ -15,12 +15,15 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('book_id');
-            $table->string('title');
+            $table->string('title', 100);
+            $table->string('slug', 100)->nullable();                         
             $table->integer('pages_count')->unsigned();
             $table->date('published_date');
             $table->decimal('price', 5, 2);
             $table->smallInteger('quantity');
-            $table->timestamps();
+            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
             $table->integer('author_id')->unsigned();
             $table->integer('field_id')->unsigned();
             $table->integer('language_id')->unsigned();

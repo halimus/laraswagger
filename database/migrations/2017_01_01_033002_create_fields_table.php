@@ -15,8 +15,9 @@ class CreateFieldsTable extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->increments('field_id');
-            $table->string('field_name')->unique();
-            $table->timestamps();
+            $table->string('field_name', 45)->unique();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
             $table->engine = 'InnoDB';
         });
         

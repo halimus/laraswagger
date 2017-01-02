@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Dingo\Api\Routing\Helpers;
 use App\Models\Book;
+use Illuminate\Support\Facades\Validator;
 
 
 class BookController extends Controller {
@@ -18,9 +19,7 @@ class BookController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        
         $books = Book::all();
-        
         return response()->json(['results' => $books]);
     }
     
@@ -31,14 +30,10 @@ class BookController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-
-        $book = Author::find($id);
-
+        $book = Book::find($id);
         if (!$book) {
-            //Using Dingo Helpers
             return $this->response->error('Book not found', 404);
         }
-        
         return response()->json(['result' => $book]);
     }
     
@@ -49,9 +44,21 @@ class BookController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $input = $request->all();
         
-
-
+        $rules = $this->rules($input);
+        $messages = $this->messages();
+        $validator = Validator::make($request->all(), $rules, $messages); 
+        if ($validator->fails()) {
+            return $this->response->errorBadRequest($validator->errors()); 
+        } 
+        
+        if(Book::create($input)){
+            return $this->response->created();
+        }
+        else{
+            return $this->response->error('could_not_create_book', 500);
+        } 
     }
 
     /**
@@ -62,7 +69,25 @@ class BookController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+        $book = Book::find($id);
+        if (!$book) {
+            return $this->response->error('Book not found', 404);
+        }
         
+        $input = $request->all();
+        $rules = $this->rules($input);
+        $validator = Validator::make($request->all(), $rules); 
+        if ($validator->fails()) {
+            return $this->response->errorBadRequest($validator->errors()); 
+        } 
+
+        $book->fill($input);
+        if($book->save()){
+            return $this->response->noContent();
+        }
+        else{
+            return $this->response->error('could_not_update_book', 500);
+        }
         
     }
 
@@ -73,8 +98,52 @@ class BookController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        $book = Book::find($id);
+        if (!$book) {
+            return $this->response->error('Book not found', 404);
+        }
+        if($book->delete()){
+            return $this->response->noContent();
+        }
+        else{
+           return $this->response->error('could_not_delete_book', 500); 
+        }
+    }
+    
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules($input) {
+        $rules = [
+            'title' => 'required|min:2',
+            'pages_count' => 'required|numeric',
+            'published_date' => 'required|date',
+            'price' => 'required|between:1, 999.99',
+            'quantity' => 'required|numeric',
+            'author_id' => 'required|exists:authors,author_id',
+            'field_id' => 'required|exists:fields,field_id',
+            'language_id' => 'required|exists:languages,language_id',
+            
+        ];
         
-         
+        if(isset($input['password'])){
+            $rules['password'] = 'required|min:4';
+        }
+        
+        return $rules;
+    }
+    /*
+     * 
+     */
+
+    public function messages() {
+        return [
+            'author_id.exists' => 'Not an existing author_id',
+            'field_id.exists' => 'Not an existing field_id',
+            'language_id.exists' => 'Not an existing language_id',
+        ];
     }
     
 }
