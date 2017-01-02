@@ -64,11 +64,11 @@
                     Laravel REST API
                 </div>
                 <ul>
-                    <li><a href="{{ url('/api/users/') }}">Users</a></li>
-                    <li><a href="{{ url('/api/books/') }}">Books</a></li>
-                    <li><a href="{{ url('/api/authors/') }}">Authors</a></li>
-                    <li><a href="{{ url('/api/fields/') }}">Fields</a></li>
-                    <li><a href="{{ url('/api/languages/') }}">Languages</a></li>
+                    <li><a href="{{ url('/api/users/') }}">/api/users/</a></li>
+                    <li><a href="{{ url('/api/books/') }}">/api/books/</a></li>
+                    <li><a href="{{ url('/api/authors/') }}">/api/authors/</a></li>
+                    <li><a href="{{ url('/api/fields/') }}">/api/fields/</a></li>
+                    <li><a href="{{ url('/api/languages/') }}">/api/languages/</a></li>
                 </ul>
             </div>
         </div>
