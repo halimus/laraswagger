@@ -53,6 +53,8 @@ class BookController extends Controller {
             return $this->response->errorBadRequest($validator->errors()); 
         } 
         
+        $input['slug'] = str_slug($request['title'], '-');
+        
         if(Book::create($input)){
             return $this->response->created();
         }
@@ -80,7 +82,12 @@ class BookController extends Controller {
         if ($validator->fails()) {
             return $this->response->errorBadRequest($validator->errors()); 
         } 
-
+        
+        if(isset($request['title'])){
+            
+        }
+        $input['slug'] = str_slug($request['title'], '-');
+        
         $book->fill($input);
         if($book->save()){
             return $this->response->noContent();
@@ -128,12 +135,15 @@ class BookController extends Controller {
             
         ];
         
-        if(isset($input['password'])){
-            $rules['password'] = 'required|min:4';
-        }
+//        if(isset($input['title'])){
+//            $rules['title'] = 'required|min:2';
+//        }
         
         return $rules;
     }
+    
+    
+    
     /*
      * 
      */
