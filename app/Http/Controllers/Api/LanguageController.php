@@ -21,7 +21,6 @@ class LanguageController extends Controller {
      *     summary="List all languages",
      *     operationId="listLanguages",
      *     tags={"Languages"},
-     *     produces: - "text",
      *     @SWG\Response(
      *         response=200,
      *         description="successful operation",

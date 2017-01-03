@@ -4,10 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- *
- * @SWG\Model(id="Language")
- */
 
 class Language extends Model {
     

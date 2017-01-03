@@ -1,0 +1,116 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Book Stote API",
+        "description": "A sample API that uses a bookstore as an example to demonstrate features in the swagger-2.0 specification",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Swagger API Team",
+            "url": "http://swagger.io",
+            "email": "apiteam@swagger.io"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/languages": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "List all languages",
+                "operationId": "listLanguages",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "default": {
+                        "description": "unexpected error"
+                    }
+                }
+            }
+        },
+        "/languages/{language_id}": {
+            "get": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Info for a specific language",
+                "operationId": "showLanguageById",
+                "parameters": [
+                    {
+                        "name": "language_id",
+                        "in": "path",
+                        "description": "The id of the language to retrieve",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Expected response to a valid request",
+                        "schema": {
+                            "$ref": "#/definitions/Pets"
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/languages/create": {
+            "post": {
+                "tags": [
+                    "Languages"
+                ],
+                "summary": "Create a language",
+                "operationId": "addLanguage",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "language_name",
+                        "in": "body",
+                        "description": "Language to add to the bookstore",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/languages/"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Null response"
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}
