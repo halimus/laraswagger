@@ -69,6 +69,8 @@
                     <li><a href="{{ url('/api/authors/') }}">/api/authors/</a></li>
                     <li><a href="{{ url('/api/fields/') }}">/api/fields/</a></li>
                     <li><a href="{{ url('/api/languages/') }}">/api/languages/</a></li>
+                    <li><a href="{{ url('/api/documentation') }}">/api/documentation/</a></li>
+                    <li><a href="https://github.com/DarkaOnLine/L5-Swagger">L5-Swagger</a></li>
                 </ul>
             </div>
         </div>

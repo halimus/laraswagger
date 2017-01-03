@@ -9,9 +9,29 @@ use App\Models\Language;
 use Illuminate\Support\Facades\Validator;
 
 
+
+
 class LanguageController extends Controller {
 
     use Helpers;
+    
+    /**
+     * @SWG\Get(
+     *     path="/languages",
+     *     summary="List all languages",
+     *     operationId="listLanguages",
+     *     tags={"Languages"},
+     *     produces: - "text",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     ),
+     *     @SWG\Response(
+     *         response="default",
+     *         description="unexpected error",
+     *     )
+     * )
+     */
     
     /**
      * Display a listing of the resource.
@@ -25,6 +45,32 @@ class LanguageController extends Controller {
         return response()->json(['results' => $languages]);
     }
     
+    
+    /**
+     * @SWG\Get(
+     *     path="/languages/{language_id}",
+     *     summary="Info for a specific language",
+     *     operationId="showLanguageById",
+     *     tags={"Languages"},
+     *     @SWG\Parameter(
+     *         name="language_id",
+     *         in="path",
+     *         required=true,
+     *         description="The id of the language to retrieve",
+     *         type="integer"
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Expected response to a valid request",
+     *         @SWG\Schema(ref="#/definitions/Pets")
+     *     ),
+     *     @SWG\Response(
+     *         response="default",
+     *         description="unexpected error",
+     *         @SWG\Schema(ref="#/definitions/Error")
+     *     )
+     * )
+     */
     /**
      * Display the specified resource.
      *
@@ -32,16 +78,41 @@ class LanguageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-
         $language = Language::find($id);
-
         if (!$language) {
             return $this->response->error('Language not found', 404);
         }
-        
         return response()->json(['result' => $language]);
     }
     
+    
+    
+    /**
+     * @SWG\Post(
+     *    path="/languages/create",
+     *    operationId="addLanguage",
+     *    summary="Create a language",
+     *    produces={"application/json"},
+     *    tags={"Languages"},
+     *    @SWG\Parameter(
+     *         name="language_name",
+     *         in="body",
+     *         required=true,
+     *         type="string",
+     *         description="Language to add to the bookstore",
+     *         @SWG\Schema(ref="#/definitions/languages/"),
+     *    ),
+     *    @SWG\Response(
+     *       response=201, 
+     *       description="Null response"
+     *    ),
+     *    @SWG\Response(
+     *        response="default",
+     *        description="unexpected error",
+     *        @SWG\Schema(ref="#/definitions/Error")
+     *    )
+     * )
+     */
     /**
      * Store a newly created resource in storage.
      *
